@@ -19,24 +19,36 @@ package org.jsonschema2pojo.example;
 import com.sun.codemodel.JCodeModel;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
-
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 
 public class Example {
 
     public static void main(String[] args) throws IOException {
 
-        // BEGIN EXAMPLE
-
         JCodeModel codeModel = new JCodeModel();
-
-        URL source = Example.class.getResource("/schema/required.json");
-
+        URL source = Example.class.getResource("/schema/example.json");
         GenerationConfig config = new DefaultGenerationConfig() {
             @Override
             public boolean isGenerateBuilders() { // set config option by overriding method
+                return true;
+            }
+            @Override
+            public boolean isIncludeJsr303Annotations() {
+                return true;
+            }
+            @Override
+            public boolean isIncludeToString() {
+                return false;
+            }
+            @Override
+            public boolean isIncludeHashcodeAndEquals() {
+                return false;
+            }
+
+            @Override
+            public boolean isUseLongIntegers() {
                 return true;
             }
         };
@@ -44,10 +56,7 @@ public class Example {
         SchemaMapper mapper = new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
         mapper.generate(codeModel, "ClassName", "com.example", source);
 
-        codeModel.build(Files.createTempDirectory("required").toFile());
-
-        // END EXAMPLE
-
+        File file = new File("c:\\myDir");
+        codeModel.build(file);
     }
-
 }
