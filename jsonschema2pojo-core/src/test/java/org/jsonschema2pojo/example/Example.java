@@ -32,7 +32,7 @@ public class Example {
         GenerationConfig config = new DefaultGenerationConfig() {
             @Override
             public boolean isGenerateBuilders() { // set config option by overriding method
-                return true;
+                return false;
             }
             @Override
             public boolean isIncludeJsr303Annotations() {
@@ -49,6 +49,11 @@ public class Example {
 
             @Override
             public boolean isUseLongIntegers() {
+                return true;
+            }
+
+            @Override
+            public boolean isUseBigDecimals() {
                 return true;
             }
         };

@@ -4,7 +4,7 @@
     "address": {
       "type": "object",
       "properties": {
-        "street_address": { "type": "string" },
+        "street_addres2s": { "type": "string" },
         "city":           { "type": "string" },
         "state":          { "type": "string" },
         "buildingNo":     { "type": "integer" },
@@ -13,7 +13,9 @@
         "info":           { "type": "null" },
         "age": {
           "type": "number",
-          "format": "decimal(7,3)"
+          "format": "decimal(7,3)",
+          "minimum": 3,
+          "maximum": 100
         },
         "typeOfAddress":  { "enum": ["normal", "special"] }
       },
