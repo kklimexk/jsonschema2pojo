@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "definitions": {
+    "address": {
+      "type": "object",
+      "properties": {
+        "street_address": { "type": "string" },
+        "city":           { "type": "string" },
+        "state":          { "type": "string" },
+        "buildingNo":     { "type": "integer" },
+        "flatNo":         { "type": "number", "jrg.properties" : {
+                                              "options" : [1,45,234]
+                                                }},
+        "isTaken":        { "type": "boolean" },
+        "info":           { "type": "null" },
+        "typeOfAddress":  { "enum": ["normal", "special"] }
+      },
+      "required": ["street_address", "city", "state"]
+    },
+    "numbersArr": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["one", "two", "three"]
+      }
+    }
+  },
+
+  "type": "object",
+
+  "properties": {
+    "billing_address": { "$ref": "#/definitions/address" },
+    "shipping_address": {
+      "allOf": [
+        { "$ref": "#/definitions/address" },
+        { "properties":
+        { "type": { "enum": [ "residential", "business" ] } },
+          "required": ["type"]
+        }
+      ]
+    },
+    "numbersArray": { "$ref": "#/definitions/numbersArr" },
+    "stringField": { "type": "string" },
+    "coolMap": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "integerArray": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "doubleArray": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "booleanArray": {
+      "type": "array",
+      "items": {
+        "type": "boolean"
+      }
+    },
+    "addressArray": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/address" }
+    },
+    "integerNestedArray": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      }
+    },
+    "addressNestedArray": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/address" }
+        }
+      }
+    }
+  }
+}

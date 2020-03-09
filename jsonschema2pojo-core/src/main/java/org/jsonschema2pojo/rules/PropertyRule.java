@@ -82,6 +82,7 @@ public class PropertyRule implements Rule<JDefinedClass, JDefinedClass> {
         formatAnnotation(field, jclass, node);
 
         ruleFactory.getAnnotator().propertyField(field, jclass, nodeName, node);
+        ruleFactory.getAnnotator().valueHint(field, jclass, node);
 
         if (isIncludeGetters) {
             JMethod getter = addGetter(jclass, field, nodeName, node, isRequired(nodeName, node, schema), useOptional(nodeName, node, schema));

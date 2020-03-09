@@ -18,9 +18,7 @@ package org.jsonschema2pojo;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.sun.codemodel.JAnnotationUse;
@@ -45,6 +43,7 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JEnumConstant;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
+import org.jsonschema2pojo.valuehints.ValueHintOptions;
 
 /**
  * Annotates generated Java types using the Jackson 2.x mapping annotations.
@@ -157,6 +156,19 @@ public class Jackson2Annotator extends AbstractTypeInfoAwareAnnotator {
     @Override
     public void additionalPropertiesField(JFieldVar field, JDefinedClass clazz, String propertyName) {
         field.annotate(JsonIgnore.class);
+    }
+
+    @Override
+    public void valueHint(JFieldVar field, JDefinedClass clazz, JsonNode node) {
+
+        if (node.has("jrg.properties") && node.get("jrg.properties").has("options")) {
+            JsonNode jn = node.get("jrg.properties").get("options");
+            ArrayList<String> options_palette = new ArrayList<String>();
+            JAnnotationArrayMember arrayparams = field.annotate(ValueHintOptions.class).paramArray("options");
+            for (final JsonNode objNode : jn) {
+                arrayparams.param(objNode.toString());
+            }
+        }
     }
 
     @Override

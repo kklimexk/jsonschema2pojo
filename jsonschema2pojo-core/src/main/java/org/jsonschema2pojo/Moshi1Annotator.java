@@ -54,4 +54,9 @@ public class Moshi1Annotator extends AbstractAnnotator {
         return false;
     }
 
+    @Override
+    public void valueHint(JFieldVar field, JDefinedClass clazz, JsonNode node) {
+
+    }
+
 }

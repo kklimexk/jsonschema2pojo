@@ -143,6 +143,11 @@ public class Jackson1Annotator extends AbstractTypeInfoAwareAnnotator {
         field.annotate(JsonIgnore.class);
     }
 
+    @Override
+    public void valueHint(JFieldVar field, JDefinedClass clazz, JsonNode node) {
+
+    }
+
     protected void addJsonTypeInfoAnnotation(JDefinedClass jclass, String propertyName) {
         JAnnotationUse jsonTypeInfo = jclass.annotate(JsonTypeInfo.class);
         jsonTypeInfo.param("use", JsonTypeInfo.Id.CLASS);

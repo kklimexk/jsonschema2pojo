@@ -17,10 +17,18 @@
 package org.jsonschema2pojo;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.codemodel.JDefinedClass;
+import com.sun.codemodel.JFieldVar;
+
 /**
  * No-op annotator that produces no annotations. Useful for producing truly
  * <em>plain old</em> Java types that have no mapping annotations at all.
  */
 public class NoopAnnotator extends AbstractAnnotator {
 
+    @Override
+    public void valueHint(JFieldVar field, JDefinedClass clazz, JsonNode node) {
+
+    }
 }

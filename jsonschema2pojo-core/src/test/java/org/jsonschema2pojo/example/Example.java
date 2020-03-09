@@ -28,7 +28,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
 
         JCodeModel codeModel = new JCodeModel();
-        URL source = Example.class.getResource("/schema/example.json");
+        URL source = Example.class.getResource("/schema/complex.schema.json");
         GenerationConfig config = new DefaultGenerationConfig() {
             @Override
             public boolean isGenerateBuilders() { // set config option by overriding method
@@ -53,13 +53,18 @@ public class Example {
             }
 
             @Override
+            public boolean isInitializeCollections() {
+                return false;
+            }
+
+            @Override
             public boolean isUseBigDecimals() {
                 return true;
             }
         };
 
         SchemaMapper mapper = new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
-        mapper.generate(codeModel, "ClassName", "com.example", source);
+        mapper.generate(codeModel, "ClassName", "pojos", source);
 
         File file = new File("c:\\myDir");
         codeModel.build(file);

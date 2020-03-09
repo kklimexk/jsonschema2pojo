@@ -148,6 +148,11 @@ public class CompositeAnnotator implements Annotator {
     }
 
     @Override
+    public void valueHint(JFieldVar field, JDefinedClass clazz, JsonNode node) {
+
+    }
+
+    @Override
    public void dateTimeField(JFieldVar field, JDefinedClass clazz, JsonNode propertyNode) {
       for (Annotator annotator : annotators) {
             annotator.dateTimeField(field, clazz, propertyNode);
