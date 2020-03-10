@@ -43,7 +43,7 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JEnumConstant;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
-import org.jsonschema2pojo.valuehints.ValueHintOptions;
+import org.jsonschema2pojo.valuehints.*;
 
 /**
  * Annotates generated Java types using the Jackson 2.x mapping annotations.
@@ -163,11 +163,34 @@ public class Jackson2Annotator extends AbstractTypeInfoAwareAnnotator {
 
         if (node.has("jrg.properties") && node.get("jrg.properties").has("options")) {
             JsonNode jn = node.get("jrg.properties").get("options");
-            ArrayList<String> options_palette = new ArrayList<String>();
             JAnnotationArrayMember arrayparams = field.annotate(ValueHintOptions.class).paramArray("options");
-            for (final JsonNode objNode : jn) {
-                arrayparams.param(objNode.toString());
-            }
+            for (final JsonNode objNode : jn)  arrayparams.param(objNode.asText());
+        }
+
+        if (node.has("jrg.properties") && node.get("jrg.properties").has("iterator")) {
+            JsonNode jn = node.get("jrg.properties").get("iterator");
+            field.annotate(ValueHintIterator.class)
+                    .param("start",     node.get("jrg.properties").get("iterator").get("start").asText())
+                    .param("restart",   node.get("jrg.properties").get("iterator").get("restart").asText())
+                    .param("step",      node.get("jrg.properties").get("iterator").get("step").asText())
+                    .param("initial",   node.get("jrg.properties").get("iterator").get("initial").asText());
+        }
+
+        if (node.has("jrg.properties") && node.get("jrg.properties").has("prefix")) {
+            JsonNode jn = node.get("jrg.properties").get("prefix");
+            field.annotate(ValueHintPrefix.class).param("prefix", node.get("jrg.properties").get("prefix").asText());
+        }
+
+        if (node.has("jrg.properties") && node.get("jrg.properties").has("postfix")) {
+            JsonNode jn = node.get("jrg.properties").get("postfix");
+            field.annotate(ValueHintPostfix.class).param("prefix", node.get("jrg.properties").get("postfix").asText());
+        }
+
+        if (node.has("jrg.properties") && node.get("jrg.properties").has("decimal")) {
+            JsonNode jn = node.get("jrg.properties").get("decimal");
+            field.annotate(ValueHintDecimal.class)
+                    .param("precision", node.get("jrg.properties").get("decimal").get("precision").asInt())
+                    .param("scale",     node.get("jrg.properties").get("decimal").get("scale").asInt());
         }
     }
 

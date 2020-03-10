@@ -5,13 +5,31 @@
       "type": "object",
       "properties": {
         "street_address": { "type": "string" },
-        "city":           { "type": "string" },
+        "city":           { "type": "string" , "jrg.properties" : {
+                                              "options" : [
+                                              "London",
+                                              "New Yoyrk",
+                                              "Tokyo"],
+                                              "postfix" :"_city"
+                                              }},
         "state":          { "type": "string" },
         "buildingNo":     { "type": "integer" },
         "flatNo":         { "type": "number", "jrg.properties" : {
-                                              "options" : [1,45,234]
-                                                }},
+                                                "iterator" : {
+                                                  "start": 1,
+                                                  "restart": 200,
+                                                  "step" : 5,
+                                                  "initial" :100
+                                                },
+                                                "prefix" :"LN"
+                                              }},
         "isTaken":        { "type": "boolean" },
+        "credit":         { "type": "number","jrg.properties" : {
+                                              "decimal" : {
+                                                "precision": 11,
+                                                "scale": 4
+                                              }
+                                            }},
         "info":           { "type": "null" },
         "typeOfAddress":  { "enum": ["normal", "special"] }
       },
