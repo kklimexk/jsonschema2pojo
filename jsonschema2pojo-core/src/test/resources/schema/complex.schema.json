@@ -36,12 +36,15 @@
       "required": ["street_address", "city", "state"]
     },
     "numbersArr": {
-      "type": "array",
+      "type": "array", "jrg.properties" : {
+        "decimal" : {
+          "precision": 11,
+          "scale": 4
+        }
+      },
       "items": {
-        "type": "string",
-        "enum": ["one", "two", "three"]
-      }
-    }
+        "type": "number"
+    }}
   },
 
   "type": "object",
