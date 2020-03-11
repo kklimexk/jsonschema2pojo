@@ -28,6 +28,7 @@ import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.Schema;
+import org.jsonschema2pojo.valuehints.HintValidationHelper;
 
 
 /**
@@ -82,7 +83,10 @@ public class PropertyRule implements Rule<JDefinedClass, JDefinedClass> {
         formatAnnotation(field, jclass, node);
 
         ruleFactory.getAnnotator().propertyField(field, jclass, nodeName, node);
-        ruleFactory.getAnnotator().valueHint(field, jclass, node);
+        if (node.has(HintValidationHelper.JRG_PROPERTIES)) {
+            HintValidationHelper.checkHintAppliance(node);
+            ruleFactory.getAnnotator().valueHint(field, jclass, node.get(HintValidationHelper.JRG_PROPERTIES));
+        }
 
         if (isIncludeGetters) {
             JMethod getter = addGetter(jclass, field, nodeName, node, isRequired(nodeName, node, schema), useOptional(nodeName, node, schema));

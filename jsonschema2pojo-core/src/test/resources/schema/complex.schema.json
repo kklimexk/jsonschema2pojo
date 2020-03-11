@@ -8,11 +8,17 @@
         "city":           { "type": "string" , "jrg.properties" : {
                                               "options" : [
                                               "London",
-                                              "New Yoyrk",
+                                              "New York",
                                               "Tokyo"],
                                               "postfix" :"_city"
                                               }},
-        "state":          { "type": "string" },
+        "state":          { "type": "string" ,"jrg.properties" : {
+                                                "regex" : "^[2-9]\\d{2}-\\d{3}-\\d{4}$",
+                                                "length" : {
+                                                  "min" : 4,
+                                                  "max" : 10
+                                                }
+                                              }},
         "buildingNo":     { "type": "integer" },
         "flatNo":         { "type": "number", "jrg.properties" : {
                                                 "iterator" : {
@@ -24,11 +30,16 @@
                                                 "prefix" :"LN"
                                               }},
         "isTaken":        { "type": "boolean" },
-        "credit":         { "type": "number","jrg.properties" : {
+        "credit":         { "type": "string","jrg.properties" : {
                                               "decimal" : {
                                                 "precision": 11,
                                                 "scale": 4
+                                              },
+                                              "range" : {
+                                                "min" : 3,
+                                                "max" : 44
                                               }
+
                                             }},
         "info":           { "type": "null" },
         "typeOfAddress":  { "enum": ["normal", "special"] }

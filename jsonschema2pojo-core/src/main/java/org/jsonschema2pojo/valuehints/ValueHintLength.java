@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ValueHintPrefix {
-    String prefix() default "";
-
+public @interface ValueHintLength {
+    int min() default 0;
+    int max() default 0;
 }

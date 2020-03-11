@@ -43,7 +43,9 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JEnumConstant;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
+import org.jsonschema2pojo.rules.TypeRule;
 import org.jsonschema2pojo.valuehints.*;
+import static org.jsonschema2pojo.valuehints.HintValidationHelper.*;
 
 /**
  * Annotates generated Java types using the Jackson 2.x mapping annotations.
@@ -159,39 +161,46 @@ public class Jackson2Annotator extends AbstractTypeInfoAwareAnnotator {
     }
 
     @Override
-    public void valueHint(JFieldVar field, JDefinedClass clazz, JsonNode node) {
+    public void valueHint(JFieldVar field, JDefinedClass clazz, JsonNode jrgProps) {
 
-        if (node.has("jrg.properties") && node.get("jrg.properties").has("options")) {
-            JsonNode jn = node.get("jrg.properties").get("options");
-            JAnnotationArrayMember arrayparams = field.annotate(ValueHintOptions.class).paramArray("options");
-            for (final JsonNode objNode : jn)  arrayparams.param(objNode.asText());
-        }
-
-        if (node.has("jrg.properties") && node.get("jrg.properties").has("iterator")) {
-            JsonNode jn = node.get("jrg.properties").get("iterator");
-            field.annotate(ValueHintIterator.class)
-                    .param("start",     node.get("jrg.properties").get("iterator").get("start").asText())
-                    .param("restart",   node.get("jrg.properties").get("iterator").get("restart").asText())
-                    .param("step",      node.get("jrg.properties").get("iterator").get("step").asText())
-                    .param("initial",   node.get("jrg.properties").get("iterator").get("initial").asText());
-        }
-
-        if (node.has("jrg.properties") && node.get("jrg.properties").has("prefix")) {
-            JsonNode jn = node.get("jrg.properties").get("prefix");
-            field.annotate(ValueHintPrefix.class).param("prefix", node.get("jrg.properties").get("prefix").asText());
-        }
-
-        if (node.has("jrg.properties") && node.get("jrg.properties").has("postfix")) {
-            JsonNode jn = node.get("jrg.properties").get("postfix");
-            field.annotate(ValueHintPostfix.class).param("prefix", node.get("jrg.properties").get("postfix").asText());
-        }
-
-        if (node.has("jrg.properties") && node.get("jrg.properties").has("decimal")) {
-            JsonNode jn = node.get("jrg.properties").get("decimal");
-            field.annotate(ValueHintDecimal.class)
-                    .param("precision", node.get("jrg.properties").get("decimal").get("precision").asInt())
-                    .param("scale",     node.get("jrg.properties").get("decimal").get("scale").asInt());
-        }
+            if (jrgProps.has(JRG_OPTIONS)) {
+                JAnnotationArrayMember optionsArray = field.annotate(ValueHintOptions.class).paramArray("options");
+                for (final JsonNode objNode : jrgProps.get(JRG_OPTIONS)) optionsArray.param(objNode.asText());
+            }
+            else if (jrgProps.has(JRG_ITERATOR)) {
+                JsonNode jrgIterator = jrgProps.get(JRG_ITERATOR);
+                field.annotate(ValueHintIterator.class)
+                        .param("start", jrgIterator.get("start").asText())
+                        .param("restart", jrgIterator.get("restart").asText())
+                        .param("step", jrgIterator.get("step").asText())
+                        .param("initial", jrgIterator.get("initial").asText());
+            }
+            else if (jrgProps.has(JRG_DECIMAL)) {
+                field.annotate(ValueHintDecimal.class)
+                        .param("precision", jrgProps.get(JRG_DECIMAL).get("precision").asInt())
+                        .param("scale", jrgProps.get(JRG_DECIMAL).get("scale").asInt());
+            }
+            else if (jrgProps.has(JRG_REGEX)) {
+                field.annotate(ValueHintRegex.class)
+                        .param("regexExpression", jrgProps.get(JRG_REGEX).asText());
+            }
+            //additionally
+            if (jrgProps.has(JRG_LENGTH)) {
+                field.annotate(ValueHintLength.class)
+                        .param("min", jrgProps.get(JRG_LENGTH).get("min").asInt())
+                        .param("max", jrgProps.get(JRG_LENGTH).get("max").asInt());
+            }
+            if (jrgProps.has(JRG_RANGE)) {
+                field.annotate(ValueHintRange.class)
+                        .param("min", jrgProps.get(JRG_RANGE).get("min").asInt())
+                        .param("max", jrgProps.get(JRG_RANGE).get("max").asInt());
+            }
+            if (jrgProps.has(JRG_PREFIX)) {
+                field.annotate(ValueHintPrefix.class).param(JRG_PREFIX, jrgProps.get("prefix").asText());
+            }
+            if (jrgProps.has(JRG_POSTFIX)) {
+                field.annotate(ValueHintPostfix.class).param(JRG_POSTFIX, jrgProps.get("postfix").asText());
+            }
     }
 
     @Override

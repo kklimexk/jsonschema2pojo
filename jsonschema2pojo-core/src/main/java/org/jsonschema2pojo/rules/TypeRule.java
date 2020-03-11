@@ -118,7 +118,7 @@ public class TypeRule implements Rule<JClassContainer, JType> {
     return type;
   }
 
-  private String getTypeName(JsonNode node) {
+   public static String getTypeName(JsonNode node) {
     if (node.has("type") && node.get("type").isArray() && node.get("type").size() > 0) {
       for (JsonNode jsonNode : node.get("type")) {
         String typeName = jsonNode.asText();
