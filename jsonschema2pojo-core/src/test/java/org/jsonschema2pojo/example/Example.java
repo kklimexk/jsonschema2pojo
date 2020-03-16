@@ -61,6 +61,20 @@ public class Example {
             public boolean isUseBigDecimals() {
                 return true;
             }
+
+            @Override
+            public String getDateType() {
+                return "java.util.Date";
+            }
+            @Override
+            public String getDateTimeType() {
+                return "org.joda.time.DateTime";
+            }
+
+            @Override
+            public String getTimeType() {
+                return "java.time.LocalTime";
+            }
         };
 
         SchemaMapper mapper = new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());

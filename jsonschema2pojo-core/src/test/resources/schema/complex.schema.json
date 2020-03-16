@@ -30,7 +30,7 @@
                                                 "prefix" :"LN"
                                               }},
         "isTaken":        { "type": "boolean" },
-        "credit":         { "type": "string","jrg.properties" : {
+        "credit":         { "type": "number","jrg.properties" : {
                                               "decimal" : {
                                                 "precision": 11,
                                                 "scale": 4
@@ -42,10 +42,23 @@
 
                                             }},
         "info":           { "type": "null" },
+        "orderReleaseDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "orderReleaseDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },        
+        "orderReleaseTime": {
+          "type": "string",
+          "format": "time"
+        },
         "typeOfAddress":  { "enum": ["normal", "special"] }
       },
       "required": ["street_address", "city", "state"]
     },
+    
     "numbersArr": {
       "type": "array", "jrg.properties" : {
         "decimal" : {

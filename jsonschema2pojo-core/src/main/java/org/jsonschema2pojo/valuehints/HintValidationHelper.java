@@ -1,7 +1,6 @@
 package org.jsonschema2pojo.valuehints;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.codemodel.JFieldVar;
 import org.jsonschema2pojo.rules.TypeRule;
 
 public class HintValidationHelper {

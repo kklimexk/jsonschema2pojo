@@ -170,10 +170,10 @@ public class Jackson2Annotator extends AbstractTypeInfoAwareAnnotator {
             else if (jrgProps.has(JRG_ITERATOR)) {
                 JsonNode jrgIterator = jrgProps.get(JRG_ITERATOR);
                 field.annotate(ValueHintIterator.class)
-                        .param("start", jrgIterator.get("start").asText())
-                        .param("restart", jrgIterator.get("restart").asText())
-                        .param("step", jrgIterator.get("step").asText())
-                        .param("initial", jrgIterator.get("initial").asText());
+                        .param("start", jrgIterator.get("start").asLong())
+                        .param("restart", jrgIterator.get("restart").asLong())
+                        .param("step", jrgIterator.get("step").asLong())
+                        .param("initial", jrgIterator.get("initial").asLong());
             }
             else if (jrgProps.has(JRG_DECIMAL)) {
                 field.annotate(ValueHintDecimal.class)
@@ -192,8 +192,8 @@ public class Jackson2Annotator extends AbstractTypeInfoAwareAnnotator {
             }
             if (jrgProps.has(JRG_RANGE)) {
                 field.annotate(ValueHintRange.class)
-                        .param("min", jrgProps.get(JRG_RANGE).get("min").asInt())
-                        .param("max", jrgProps.get(JRG_RANGE).get("max").asInt());
+                        .param("min", jrgProps.get(JRG_RANGE).get("min").asLong())
+                        .param("max", jrgProps.get(JRG_RANGE).get("max").asLong());
             }
             if (jrgProps.has(JRG_PREFIX)) {
                 field.annotate(ValueHintPrefix.class).param(JRG_PREFIX, jrgProps.get("prefix").asText());
